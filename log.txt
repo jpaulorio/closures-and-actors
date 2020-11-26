@@ -1,0 +1,122 @@
+Processing new prices...
+Processing cost change: {:event_id 2, :name "oranges"}Processing new product: {:event_id 3, :name "grapes"}
+
+Processing cost change: {:event_id 5, :name "bananas"}Processing new product: {:event_id 1, :name "oranges"}
+
+Processing cost change: {:event_id 6, :name "papaya"}
+Processing new product: {:event_id 0, :name "oranges"}
+Processing cost change: {:event_id 8, :name "oranges"}
+Processing new product: {:event_id 7, :name "apples"}
+Processing cost change: {:event_id 13, :name "apples"}
+Processing new product: {:event_id 4, :name "oranges"}
+Processing cost change: {:event_id 14, :name "apples"}
+Processing new product: {:event_id 9, :name "apples"}
+Processing cost change: {:event_id 16, :name "grapes"}
+Processing new product: {:event_id 11, :name "bananas"}
+Processing cost change: {:event_id 18, :name "oranges"}
+Processing new product: {:event_id 12, :name "papaya"}
+Processing cost change: {:event_id 20, :name "apples"}
+Processing new product: {:event_id 15, :name "grapes"}
+Processing cost change: {:event_id 21, :name "grapes"}
+Processing new product: {:event_id 17, :name "grapes"}
+Processing cost change: {:event_id 19, :name "papaya"}
+Processing new product: {:event_id 22, :name "bananas"}
+Processing cost change: {:event_id 25, :name "oranges"}
+Processing new product: {:event_id 24, :name "bananas"}
+Processing cost change: {:event_id 10, :name "papaya"}
+Processing new product: {:event_id 23, :name "bananas"}
+Processing cost change: {:event_id 28, :name "grapes"}
+Processing new product: {:event_id 26, :name "papaya"}
+Processing cost change: {:event_id 29, :name "apples"}
+Processing new product: {:event_id 27, :name "bananas"}
+Computing price for: {:event_id 1, :name "oranges"}Computing price for: {:event_id 6, :name "papaya"}Computing price for: {:event_id 3, :name "grapes"}Computing price for: {:event_id 8, :name "oranges"}
+
+
+Computing price for: {:event_id 2, :name "oranges"}Computing price for: {:event_id 13, :name "apples"}
+
+Computing price for: {:event_id 0, :name "oranges"}
+
+Computing price for: {:event_id 5, :name "bananas"}
+Price computed for: {:event_id 5, :name "bananas"}
+Price computed for: {:event_id 13, :name "apples"}
+Price computed for: {:event_id 2, :name "oranges"}Price computed for: {:event_id 8, :name "oranges"}
+Computing price for: {:event_id 14, :name "apples"}
+Computing price for: {:event_id 4, :name "oranges"}
+Computing price for: {:event_id 7, :name "apples"}
+Price computed for: {:event_id 6, :name "papaya"}
+Price computed for: {:event_id 0, :name "oranges"}
+Computing price for: {:event_id 16, :name "grapes"}
+
+Computing price for: {:event_id 18, :name "oranges"}
+Computing price for: {:event_id 20, :name "apples"}
+Price computed for: {:event_id 1, :name "oranges"}
+Computing price for: {:event_id 9, :name "apples"}
+Price computed for: {:event_id 3, :name "grapes"}
+Computing price for: {:event_id 11, :name "bananas"}
+Price computed for: {:event_id 4, :name "oranges"}
+Computing price for: {:event_id 12, :name "papaya"}
+Price computed for: {:event_id 20, :name "apples"}
+Price computed for: {:event_id 7, :name "apples"}
+Computing price for: {:event_id 15, :name "grapes"}
+Computing price for: {:event_id 17, :name "grapes"}
+Price computed for: {:event_id 9, :name "apples"}
+Computing price for: {:event_id 21, :name "grapes"}
+Price computed for: {:event_id 18, :name "oranges"}
+Computing price for: {:event_id 19, :name "papaya"}
+Price computed for: {:event_id 11, :name "bananas"}Price computed for: {:event_id 16, :name "grapes"}
+Computing price for: {:event_id 25, :name "oranges"}
+Price computed for: {:event_id 14, :name "apples"}
+Computing price for: {:event_id 10, :name "papaya"}
+
+Computing price for: {:event_id 22, :name "bananas"}
+Price computed for: {:event_id 12, :name "papaya"}
+Computing price for: {:event_id 24, :name "bananas"}
+Price computed for: {:event_id 15, :name "grapes"}
+Computing price for: {:event_id 28, :name "grapes"}
+Price computed for: {:event_id 10, :name "papaya"}
+Computing price for: {:event_id 23, :name "bananas"}
+Price computed for: {:event_id 25, :name "oranges"}
+Price computed for: {:event_id 19, :name "papaya"}
+Computing price for: {:event_id 26, :name "papaya"}
+Computing price for: {:event_id 27, :name "bananas"}
+Price computed for: {:event_id 21, :name "grapes"}
+Computing price for: {:event_id 29, :name "apples"}
+Price computed for: {:event_id 22, :name "bananas"}
+New price for {:event_id 1, :name "oranges", :price 0.3959195534105559} took 91 miliseconds - 1 of 30
+New price for {:event_id 8, :name "oranges", :price 0.6281516579215243} took 91 miliseconds - 2 of 30
+New price for {:event_id 6, :name "papaya", :price 0.27531194392587827} took 92 miliseconds - 3 of 30
+New price for {:event_id 5, :name "bananas", :price 4.036931700301305} took 92 miliseconds - 4 of 30
+New price for {:event_id 13, :name "apples", :price 0.37226129234125077} took 93 miliseconds - 5 of 30
+New price for {:event_id 2, :name "oranges", :price 0.355395263552115} took 93 miliseconds - 6 of 30
+New price for {:event_id 0, :name "oranges", :price 0.43233946286852337} took 94 miliseconds - 7 of 30
+New price for {:event_id 3, :name "grapes", :price 1.5214579150221896} took 94 miliseconds - 8 of 30
+New price for {:event_id 4, :name "oranges", :price 0.2498649927502687} took 39 miliseconds - 9 of 30
+New price for {:event_id 20, :name "apples", :price 6.426657090724608} took 44 miliseconds - 10 of 30
+New price for {:event_id 7, :name "apples", :price 0.7889313935856734} took 46 miliseconds - 11 of 30
+Price computed for: {:event_id 17, :name "grapes"}
+New price for {:event_id 9, :name "apples", :price 0.3400045153928232} took 47 miliseconds - 12 of 30
+New price for {:event_id 18, :name "oranges", :price 0.26383361005919753} took 49 miliseconds - 13 of 30
+New price for {:event_id 11, :name "bananas", :price 0.7189328954621329} took 44 miliseconds - 14 of 30
+New price for {:event_id 16, :name "grapes", :price 0.35870061550744853} took 50 miliseconds - 15 of 30
+New price for {:event_id 14, :name "apples", :price 0.6689501298427306} took 51 miliseconds - 16 of 30
+New price for {:event_id 12, :name "papaya", :price 0.5081160410729257} took 41 miliseconds - 17 of 30
+New price for {:event_id 15, :name "grapes", :price 1.0407912945260513} took 42 miliseconds - 18 of 30
+New price for {:event_id 10, :name "papaya", :price 0.2903779892927117} took 40 miliseconds - 19 of 30
+New price for {:event_id 25, :name "oranges", :price 0.4510198516573403} took 42 miliseconds - 20 of 30
+New price for {:event_id 19, :name "papaya", :price 0.35424206497752797} took 43 miliseconds - 21 of 30
+New price for {:event_id 21, :name "grapes", :price 1.0212031555234722} took 45 miliseconds - 22 of 30
+New price for {:event_id 22, :name "bananas", :price 5.722526324100036} took 48 miliseconds - 23 of 30
+New price for {:event_id 17, :name "grapes", :price 17.18271297324686} took 55 miliseconds - 24 of 30
+Price computed for: {:event_id 24, :name "bananas"}
+New price for {:event_id 24, :name "bananas", :price 2.1932752420376413} took 36 miliseconds - 25 of 30
+Price computed for: {:event_id 28, :name "grapes"}
+New price for {:event_id 28, :name "grapes", :price 7.028817756116783} took 36 miliseconds - 26 of 30
+Price computed for: {:event_id 23, :name "bananas"}
+New price for {:event_id 23, :name "bananas", :price 0.6870430530359103} took 37 miliseconds - 27 of 30
+Price computed for: {:event_id 26, :name "papaya"}
+New price for {:event_id 26, :name "papaya", :price 5.564305225002596} took 37 miliseconds - 28 of 30
+Price computed for: {:event_id 29, :name "apples"}
+New price for {:event_id 29, :name "apples", :price 3.448677148228365} took 36 miliseconds - 29 of 30
+Price computed for: {:event_id 27, :name "bananas"}
+New price for {:event_id 27, :name "bananas", :price 0.3496549640071145} took 37 miliseconds - 30 of 30
+Avg processing time: 337/6 ms
