@@ -6,6 +6,11 @@ In order to simulate a cpu-bound price computation I'm doing some operations wit
 
 Then I have two main namespaces, one has a single actor for computing prices for all products and another one with one actor per product.
 
+This is an improved version of [this code](https://github.com/jpaulorio/clojure-async-sandbox) since I was able to completely separate the business logic from the underlying transport medium (core.async).
+It wouldn't be hard to implement an actor that instead of sending messages through core.async, would send messages through http.
+
+One thing I want to try later is to extract the transport layer used to send messages across actors, so I can choose between core.async, http or something else, without having to duplicate the actor logic .
+
 Both use closures to store state. I'm kinda implementing some sort of actor model here where I have functions that represent the actor's behavior and another function (closures-and-actors.actors/build-actor) to create an instance of an actor.
 
 There are also two other namespaces: one demonstrates the use of closures to store state (closures-and-actors.closures), and the other one is another example of my actor model implementation with synchronous messages (closures-and-actors.bank-account).
