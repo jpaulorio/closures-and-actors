@@ -50,11 +50,11 @@
 (defn run-simulation [number-of-products number-of-events]
   (let [products (vec (generate-products-without-channels number-of-products))
         new-price-output (async/chan)
-        new-product-handler-actor (build-actor new-product-handler 0 0)
-        cost-change-handler-actor (build-actor cost-change-handler 0 0)
+        new-product-handler-actor (build-core-async-actor new-product-handler 0 0)
+        cost-change-handler-actor (build-core-async-actor cost-change-handler 0 0)
         event-types [:new-product :cost-change]
         event-actor-map {:new-product new-product-handler-actor :cost-change cost-change-handler-actor}
-        products-actors-map (map #(assoc % :price-calculation-actor (build-actor price-computation-handler % new-price-output [])) products)
+        products-actors-map (map #(assoc % :price-calculation-actor (build-core-async-actor price-computation-handler % new-price-output [])) products)
         event-count (atom 0)]
     ;randomly sends events/messages to actors
     (doseq [n (range number-of-events)]
@@ -62,7 +62,7 @@
             event-actor (pick-random-event-channel event-types event-actor-map)]
         (send-async event-actor product)))
 
-    (println (str "Single Handler Actor - Processing " number-of-events " events for " number-of-products " products ..."))
+    (println (str "Multiple Actors - Processing " number-of-events " events for " number-of-products " products ..."))
 
     ;consolidate computed prices from the new price channel
     (async/go (while-let [message (async/<! new-price-output)]

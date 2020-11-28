@@ -22,7 +22,7 @@
 
 (defn -main [& args]
   (let [bank-account
-        (build-actor bank-account)]
+        (build-core-async-actor bank-account)]
     (send-sync bank-account {:type :credit :amount 1000})
     (send-sync bank-account {:type :debit :amount 300})
     (send-sync bank-account {:type :current-balance})
