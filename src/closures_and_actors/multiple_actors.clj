@@ -54,11 +54,11 @@
 *****************************************************************************")
   (let [products (vec (generate-products-without-channels number-of-products))
         new-price-output (async/chan)
-        new-product-actor-instance (build-core-async-actor new-product-actor 0 0)
-        cost-change-actor-instance (build-core-async-actor cost-change-actor 0 0)
+        new-product-actor-instance (build-core-async-actor new-product-actor 2000 0 0)
+        cost-change-actor-instance (build-core-async-actor cost-change-actor 2000 0 0)
         event-types [:new-product :cost-change]
         event-actor-map {:new-product new-product-actor-instance :cost-change cost-change-actor-instance}
-        products-actors-map (map #(assoc % :price-calculation-actor (build-core-async-actor price-computation-actor % new-price-output [])) products)
+        products-actors-map (map #(assoc % :price-calculation-actor (build-core-async-actor price-computation-actor 2000 % new-price-output [])) products)
         event-count (atom 0)]
     ;randomly sends events/messages to actors
     (doseq [n (range number-of-events)]
@@ -81,4 +81,6 @@
     (doseq [product products-actors-map]
       (send-sync (:price-calculation-actor product) {:channel :list-history}))
 
-    (read-line)))
+    (do
+      (println "Hit enter to exit.")
+      (read-line))))

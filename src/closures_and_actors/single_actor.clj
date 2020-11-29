@@ -35,15 +35,24 @@
   (letfn [(price-computation-actor-behavior [message]
             (case (:channel message)
               :store (let [product-id (:product-id message)
-                           updated-product (assoc message :price (compute-price))]
+                           price-history (:price-history (nth product-list product-id))
+                           new-price (compute-price)
+                           updated-product (assoc message :price new-price :price-history (conj price-history new-price))]
                        (println "Computing price for store product with id:" product-id)
                        (send-async output-channel updated-product)
                        (price-computation-actor (assoc product-list product-id updated-product) output-channel))
               :online (let [product-id (:product-id message)
-                            updated-product (assoc message :price (compute-price))]
+                            price-history (:price-history (nth product-list product-id))
+                            new-price (compute-price)
+                            updated-product (assoc message :price new-price :price-history (conj price-history new-price))]
                         (println "Computing price for online product with id:" product-id)
                         (send-async output-channel updated-product)
-                        (price-computation-actor (assoc product-list product-id updated-product) output-channel))))]
+                        (price-computation-actor (assoc product-list product-id updated-product) output-channel))
+              :list-history (doseq [product product-list]
+                              (let [product-id (:product-id product)
+                                    price-history (:price-history product)]
+                                (println (str "Price history for product " product-id ": " price-history))
+                                (price-computation-actor product-list output-channel)))))]
     price-computation-actor-behavior))
 
 (defn run-simulation [number-of-products number-of-events]
@@ -52,9 +61,9 @@
 *****************************************************************************")
   (let [products (vec (generate-products-without-channels number-of-products))
         new-price-output (async/chan)
-        price-computation-actor (build-core-async-actor price-computation-actor products new-price-output)
-        new-product-actor-instance (build-core-async-actor new-product-actor 0 0 price-computation-actor)
-        cost-change-actor-instance (build-core-async-actor cost-change-actor 0 0 price-computation-actor)
+        price-computation-actor (build-core-async-actor price-computation-actor 2000 products new-price-output)
+        new-product-actor-instance (build-core-async-actor new-product-actor 2000 0 0 price-computation-actor)
+        cost-change-actor-instance (build-core-async-actor cost-change-actor 2000 0 0 price-computation-actor)
         event-types [:new-product :cost-change]
         event-actor-map {:new-product new-product-actor-instance :cost-change cost-change-actor-instance}
         event-count (atom 0)]
@@ -70,4 +79,10 @@
 
     ;waits until all events are processed
     (while (not= @event-count number-of-events))
-    (async/close! new-price-output)))
+    (async/close! new-price-output)
+
+    (send-sync price-computation-actor {:channel :list-history})
+
+    (do
+      (println "Hit enter to exit.")
+      (read-line))))

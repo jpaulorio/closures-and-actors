@@ -10,9 +10,9 @@
         (apply actor initial-state)
         (actor)))))
 
-(defn build-core-async-actor [actor & initial-state]
+(defn build-core-async-actor [actor buffer & initial-state]
   (letfn [(core-async-processor [generate-new-state]
-            (let [current-input (async/chan)]
+            (let [current-input (async/chan buffer)]
               (async/go
                 (let [message (async/<! current-input)
                       new-input (generate-new-state message)]
