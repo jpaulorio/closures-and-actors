@@ -58,7 +58,7 @@
         cost-change-actor-instance (build-core-async-actor cost-change-actor 4000 0 0)
         event-types [:new-product :cost-change]
         event-actor-map {:new-product new-product-actor-instance :cost-change cost-change-actor-instance}
-        products-actors-map (map #(assoc % :price-calculation-actor (build-core-async-actor price-computation-actor 4000 % new-price-output [])) products)
+        products-actors-map (map #(assoc % :price-calculation-actor (build-core-async-actor price-computation-actor 1 % new-price-output [])) products)
         event-count (atom 0)]
     ;randomly sends events/messages to actors
     (doseq [n (range number-of-events)]
