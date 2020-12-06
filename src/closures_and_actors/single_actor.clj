@@ -36,14 +36,16 @@
             (case (:channel message)
               :store (let [product-id (:product-id message)
                            price-history (:price-history (nth product-list product-id))
-                           new-price (compute-price)
+                           current-price (:price (nth product-list product-id))
+                           new-price (round-places (+ current-price (compute-price)) 2)
                            updated-product (assoc message :price new-price :price-history (conj price-history new-price))]
                        (println "Computing price for store product with id:" product-id)
                        (send-async output-channel updated-product)
                        (price-computation-actor (assoc product-list product-id updated-product) output-channel))
               :online (let [product-id (:product-id message)
                             price-history (:price-history (nth product-list product-id))
-                            new-price (compute-price)
+                            current-price (:price (nth product-list product-id))
+                            new-price (round-places (+ current-price (compute-price)) 2)
                             updated-product (assoc message :price new-price :price-history (conj price-history new-price))]
                         (println "Computing price for online product with id:" product-id)
                         (send-async output-channel updated-product)
@@ -62,8 +64,8 @@
   (let [products (vec (generate-products-without-channels number-of-products))
         new-price-output (async/chan)
         price-computation-actor (build-core-async-actor price-computation-actor 10000 products new-price-output)
-        new-product-actor-instance (build-core-async-actor new-product-actor 4000 0 0 price-computation-actor)
-        cost-change-actor-instance (build-core-async-actor cost-change-actor 4000 0 0 price-computation-actor)
+        new-product-actor-instance (build-core-async-actor new-product-actor 5000 0 0 price-computation-actor)
+        cost-change-actor-instance (build-core-async-actor cost-change-actor 5000 0 0 price-computation-actor)
         event-types [:new-product :cost-change]
         event-actor-map {:new-product new-product-actor-instance :cost-change cost-change-actor-instance}
         event-count (atom 0)]
