@@ -61,7 +61,7 @@
 *****************************************************************************")
   (let [products (vec (generate-products-without-channels number-of-products))
         new-price-output (async/chan)
-        price-computation-actor (build-core-async-actor price-computation-actor 4000 products new-price-output)
+        price-computation-actor (build-core-async-actor price-computation-actor 10000 products new-price-output)
         new-product-actor-instance (build-core-async-actor new-product-actor 4000 0 0 price-computation-actor)
         cost-change-actor-instance (build-core-async-actor cost-change-actor 4000 0 0 price-computation-actor)
         event-types [:new-product :cost-change]
