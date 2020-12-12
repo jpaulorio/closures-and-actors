@@ -1,6 +1,7 @@
 (ns closures-and-actors.kafka-actors
   (:require [closures-and-actors.actors :refer :all])
   (:require [while-let.core :refer :all])
+  (:require [clojure.core.async :as async])
   (:import [org.apache.kafka.clients.admin AdminClient AdminClientConfig NewTopic]
            org.apache.kafka.clients.consumer.KafkaConsumer
            [org.apache.kafka.clients.producer KafkaProducer ProducerRecord]
@@ -25,7 +26,7 @@ from the provided kafka topic name"
          "group.id"           "example"
          "key.deserializer"   StringDeserializer
          "value.deserializer" StringDeserializer
-         "auto.offset.reset"  "latest"
+         "auto.offset.reset"  "earliest"
          "enable.auto.commit" "true"
          "max.poll.records"   (int 1)}]
     (KafkaConsumer. consumer-props)))
@@ -36,8 +37,9 @@ from the provided kafka topic name"
 
 (defn build-kafka-actor [actor topic & initial-state]
   (letfn [(kafka-processor [consumer topic actor-behavior]
-            (let [message (first (.poll consumer (Duration/ofMillis 100)))]
-              (future (actor-behavior (if message (read-string (.value message))))))
+            (if-let [message (first (.poll consumer (Duration/ofMillis 100)))]
+              (async/thread (actor-behavior (read-string (.value message))))
+              (async/thread (actor-behavior nil)))
             topic)]
     (let [bootstrap-server "localhost:19092"
           consumer (build-consumer bootstrap-server)]
@@ -47,9 +49,21 @@ from the provided kafka topic name"
 (defn send-async [actor message]
   (let [bootstrap-server "localhost:19092"
         producer (build-producer bootstrap-server)]
-    (.send producer (ProducerRecord. actor message))))
+    (.send producer (ProducerRecord. actor (str message)))))
 
 (defn send-sync [actor message]
   (let [bootstrap-server "localhost:19092"
         producer (build-producer bootstrap-server)]
-    (.send producer (ProducerRecord. actor (str message)))))
+    (.get (.send producer (ProducerRecord. actor (str message))))))
+
+(defn read-sync [consumer]
+  (if-let [message (first (.poll consumer (Duration/ofMillis 100)))]
+    (read-string (.value message))))
+
+(defn create-topics!
+  "Create the topics "
+  [bootstrap-server topics ^Integer partitions ^Short replication]
+  (let [config {AdminClientConfig/BOOTSTRAP_SERVERS_CONFIG bootstrap-server}
+        adminClient (AdminClient/create config)
+        new-topics (map (fn [^String topic-name] (NewTopic. topic-name partitions replication)) topics)]
+    (.createTopics adminClient new-topics)))
