@@ -9,6 +9,8 @@
                  [while-let "0.2.0"]
                  [net.mikera/core.matrix "0.62.0"]
                  [clojure.java-time "0.3.2"]
+                 [org.apache.kafka/kafka-clients "2.4.1"]
+                 [org.apache.kafka/kafka_2.12 "2.4.1"]
                  ]
   :main ^:skip-aot closures-and-actors.core
   :target-path "target/%s"
