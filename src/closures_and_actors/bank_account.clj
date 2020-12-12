@@ -1,6 +1,7 @@
 (ns closures-and-actors.bank-account
   (:require [clojure.core.async :as async])
   (:require [closures-and-actors.actors :refer :all])
+  (:require [closures-and-actors.core-async-actors :refer :all])
   (:gen-class))
 
 (defn bank-account

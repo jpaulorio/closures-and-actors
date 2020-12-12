@@ -1,6 +1,7 @@
 (ns closures-and-actors.single-actor
   (:require [closures-and-actors.common :refer :all])
   (:require [closures-and-actors.actors :refer :all])
+  (:require [closures-and-actors.core-async-actors :refer :all])
   (:require [clojure.core.async :as async])
   (:require [while-let.core :refer :all])
   (:gen-class))
