@@ -101,4 +101,4 @@
     (Thread/sleep 1000)))
 
 (defn -main [& args]
-  (run-simulation 2 20))
+  (run-simulation 10 100))
