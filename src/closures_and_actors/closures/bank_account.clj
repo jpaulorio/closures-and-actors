@@ -1,4 +1,4 @@
-(ns closures-and-actors.closures
+(ns closures-and-actors.closures.bank_account
   (:gen-class))
 
 (defn bank-account

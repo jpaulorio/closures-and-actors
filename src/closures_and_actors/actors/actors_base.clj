@@ -1,4 +1,4 @@
-(ns closures-and-actors.actors
+(ns closures-and-actors.actors.actors-base
   (:require [clojure.core.async :as async])
   (:require [while-let.core :refer :all]))
 

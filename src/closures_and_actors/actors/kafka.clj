@@ -1,5 +1,5 @@
-(ns closures-and-actors.kafka-actors
-  (:require [closures-and-actors.actors :refer :all])
+(ns closures-and-actors.actors.kafka
+  (:require [closures-and-actors.actors.actors-base :refer :all])
   (:require [while-let.core :refer :all])
   (:require [clojure.core.async :as async])
   (:import [org.apache.kafka.clients.admin AdminClient AdminClientConfig NewTopic]

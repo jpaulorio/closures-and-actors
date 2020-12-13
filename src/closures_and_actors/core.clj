@@ -1,6 +1,6 @@
 (ns closures-and-actors.core
-  (:require [closures-and-actors.single-actor :as sa])
-  (:require [closures-and-actors.multiple-actors :as ma])
+  (:require [closures-and-actors.price-computation.single-actor.core-async :as sa])
+  (:require [closures-and-actors.price-computation.multiple-actors.core-async :as ma])
   (:gen-class))
 
 

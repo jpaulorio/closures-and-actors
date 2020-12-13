@@ -1,7 +1,7 @@
-(ns closures-and-actors.bank-account-kafka
+(ns closures-and-actors.bank-account.core_async
   (:require [clojure.core.async :as async])
-  (:require [closures-and-actors.actors :refer :all])
-  (:require [closures-and-actors.kafka-actors :refer :all])
+  (:require [closures-and-actors.actors.actors-base :refer :all])
+  (:require [closures-and-actors.actors.core-async :refer :all])
   (:gen-class))
 
 (defn bank-account
@@ -17,14 +17,13 @@
                :current-balance (do (println "Current balance is:" current-balance)
                                     (bank-account current-balance transaction-history))
                :list-transactions (do (doseq [transaction transaction-history] (println "Transaction:" (:type transaction) (:amount transaction)))
-                                      (bank-account current-balance transaction-history))
-               (bank-account current-balance transaction-history)))]
+                                      (bank-account current-balance transaction-history))))]
      bank-account-behavior)))
 
 
 (defn -main [& args]
   (let [bank-account
-        (build-kafka-actor bank-account "bank-account-actor")]
+        (build-core-async-actor bank-account 1)]
     (send-sync bank-account {:type :credit :amount 1000})
     (send-sync bank-account {:type :debit :amount 300})
     (send-sync bank-account {:type :current-balance})

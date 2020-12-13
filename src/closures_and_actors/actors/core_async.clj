@@ -1,5 +1,5 @@
-(ns closures-and-actors.core-async-actors
-  (:require [closures-and-actors.actors :refer :all])
+(ns closures-and-actors.actors.core-async
+  (:require [closures-and-actors.actors.actors-base :refer :all])
   (:require [clojure.core.async :as async])
   (:require [while-let.core :refer :all]))
 

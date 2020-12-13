@@ -1,7 +1,7 @@
-(ns closures-and-actors.single-actor
-  (:require [closures-and-actors.common :refer :all])
-  (:require [closures-and-actors.actors :refer :all])
-  (:require [closures-and-actors.core-async-actors :refer :all])
+(ns closures-and-actors.price-computation.single-actor.core-async
+  (:require [closures-and-actors.price-computation.common :refer :all])
+  (:require [closures-and-actors.actors.actors-base :refer :all])
+  (:require [closures-and-actors.actors.core-async :refer :all])
   (:require [clojure.core.async :as async])
   (:require [while-let.core :refer :all])
   (:gen-class))

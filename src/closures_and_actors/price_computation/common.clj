@@ -1,4 +1,4 @@
-(ns closures-and-actors.common
+(ns closures-and-actors.price-computation.common
   (:require [clojure.core.matrix :as m])
   (:require [clojure.core.async :as async])
   (:gen-class))
