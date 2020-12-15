@@ -1,0 +1,81 @@
+---
+akhq:
+  clients-defaults:
+    consumer:
+      properties:
+        isolation.level: read_committed
+  connections:
+    local-cluster:
+      properties:
+        bootstrap.servers: broker:9092
+      schema-registry:
+        url: "http://schema-registry:8081"
+  pagination:
+    page-size: 25
+    threads: 16
+  security:
+    default-group: admin
+    groups:
+      admin:
+        attributes:
+          topics-filter-regexp: "^().*"
+        roles:
+          - topic/read
+          - topic/insert
+          - topic/delete
+          - topic/config/update
+          - node/read
+          - node/config/update
+          - topic/data/read
+          - topic/data/insert
+          - topic/data/delete
+          - group/read
+          - group/delete
+          - group/offsets/update
+          - registry/read
+          - registry/insert
+          - registry/update
+          - registry/delete
+          - registry/version/delete
+          - acls/read
+          - connect/read
+          - connect/insert
+          - connect/update
+          - connect/delete
+          - connect/state/update
+      reader:
+        attributes:
+          topics-filter-regexp: "^().*"
+        roles:
+          - topic/read
+  server:
+    access-log:
+      enabled: true
+      format: "[Date: {}] [Duration: {} ms] [Url: {} {}] [Status: {}] [Ip: {}] [Length: {}] [Port: {}]"
+      name: org.akhq.log.access
+    base-path: ""
+  topic:
+    default-view: HIDE_INTERNAL
+    internal-regexps:
+      - ^_.*$
+      - ^.*_schemas$
+      - ^.*connect-config$
+      - ^.*connect-offsets$1
+      - ^.*connect-status$
+    partition: 3
+    replication: 3
+    retention: 172800000
+    skip-consumer-groups: false
+    stream-regexps:
+      - ^.*-changelog$
+      - ^.*-repartition$
+      - ^.*-rekey$
+  topic-data:
+    poll-timeout: 1000
+    size: 50
+    sort: OLDEST
+micronaut:
+  security:
+    enabled: false
+  server:
+    port: 8080
