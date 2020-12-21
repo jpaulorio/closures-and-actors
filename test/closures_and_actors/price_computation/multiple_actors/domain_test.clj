@@ -1,4 +1,4 @@
-(ns closures-and-actors.price-computation.multiple-actors.kafka-test
+(ns closures-and-actors.price-computation.multiple-actors.domain-test
   (:require [clojure.test :refer :all])
   (:require [clojure.core.async :as async])
   (:require [closures-and-actors.price-computation.multiple-actors.kafka :refer [price-computation-actor
