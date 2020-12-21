@@ -35,17 +35,6 @@ from the provided kafka topic name"
   [consumer topic]
   (.subscribe consumer [topic]))
 
-(defn build-kafka-actor [actor topic & initial-state]
-  (letfn [(kafka-processor [consumer topic actor-behavior]
-            (if-let [message (first (.poll consumer (Duration/ofMillis 100)))]
-              (async/thread (actor-behavior (read-string (.value message))))
-              (async/thread (actor-behavior nil)))
-            topic)]
-    (let [bootstrap-server "localhost:19092"
-          consumer (build-consumer bootstrap-server)]
-      (consumer-subscribe consumer topic)
-      (apply build-generic-actor actor (partial kafka-processor consumer topic) initial-state))))
-
 (defn send-async [actor message]
   (let [bootstrap-server "localhost:19092"
         producer (build-producer bootstrap-server)]
@@ -59,6 +48,23 @@ from the provided kafka topic name"
 (defn read-sync [consumer]
   (if-let [message (first (.poll consumer (Duration/ofMillis 100)))]
     (read-string (.value message))))
+
+(defn build-kafka-actor [actor topic & initial-state]
+  (letfn [(kafka-processor [consumer topic actor-behavior]
+            (if-let [message (first (.poll consumer (Duration/ofMillis 100)))]
+              (async/thread (actor-behavior (read-string (.value message))))
+              (async/thread (actor-behavior nil)))
+            topic)]
+    (let [bootstrap-server "localhost:19092"
+          consumer (build-consumer bootstrap-server)]
+      (consumer-subscribe consumer topic)
+      (apply build-generic-actor
+             (fn [state]
+               (if state
+                 (apply actor send-async state)
+                 (actor send-async)))
+             (partial kafka-processor consumer topic)
+             initial-state))))
 
 (defn create-topics!
   "Create the topics "

@@ -7,5 +7,5 @@
             (message-processor #(behave (behavior %))))]
     (behave
       (if initial-state
-        (apply actor initial-state)
+        (actor initial-state)
         (actor)))))
