@@ -51,7 +51,7 @@
             initial-product {:product-id 123 :price 0.00 :channel :store}
             test-message {:price-calculation-actor actor-stub :channel :store :product-id 123}
             expected-message {:channel :store :product-id 123}
-            actor-behavior (price-computation-actor initial-product actor-stub [] send-async)]
+            actor-behavior (price-computation-actor send-async initial-product actor-stub [])]
         (do (actor-behavior test-message)
             (let [result (async/<!! actor-stub)
                   price (:price result)]
@@ -64,7 +64,7 @@
             initial-product {:product-id 123 :price 0.00 :channel :online}
             test-message {:price-calculation-actor actor-stub :channel :online :product-id 123}
             expected-message {:channel :online :product-id 123}
-            actor-behavior (price-computation-actor initial-product actor-stub [] send-async)]
+            actor-behavior (price-computation-actor send-async initial-product actor-stub [])]
         (do (actor-behavior test-message)
             (let [result (async/<!! actor-stub)
                   price (:price result)]
