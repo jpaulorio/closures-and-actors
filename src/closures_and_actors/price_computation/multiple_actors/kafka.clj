@@ -7,6 +7,28 @@
   (:require [closures-and-actors.price-computation.multiple-actors.domain :refer :all])
   (:gen-class))
 
+(defn initialize-kafka [bootstrap-server new-price-output new-product-actor-instance
+                        cost-change-actor-instance products-actors-map consumer]
+  (ak/create-topics! bootstrap-server [new-price-output new-product-actor-instance cost-change-actor-instance] 1 1)
+  (ak/create-topics! bootstrap-server (map :price-calculation-actor products-actors-map) 1 1)
+  (ak/consumer-subscribe consumer new-price-output))
+
+(defn send-events-to-actors [number-of-events products-actors-map event-types event-actor-map]
+  (doseq [n (range number-of-events)]
+    (let [product (pick-random-product products-actors-map)
+          event-actor (pick-random-event-channel event-types event-actor-map)]
+      (ak/send-async event-actor product))))
+
+(defn consolidate-prices [event-count number-of-events consumer]
+  (while (not= @event-count number-of-events)
+    (if-let [message (ak/read-sync consumer)]
+      (do (swap! event-count inc)
+          (println (str (dissoc message :price-calculation-actor) " - " @event-count " of " number-of-events))))))
+
+(defn print-prices-history [products-actors-map]
+  (doseq [product products-actors-map]
+    (ak/send-sync (:price-calculation-actor product) {:channel :list-history})))
+
 (defn run-simulation [number-of-products number-of-events]
   (println
     "*****************************************************************************
@@ -30,27 +52,16 @@
         event-count (atom 0)
         consumer (ak/build-consumer bootstrap-server)]
 
-    (ak/create-topics! bootstrap-server [new-price-output new-product-actor-instance cost-change-actor-instance] 1 1)
-    (ak/create-topics! bootstrap-server (map :price-calculation-actor products-actors-map) 1 1)
-    (ak/consumer-subscribe consumer new-price-output)
-
-    ;randomly sends events/messages to actors
-    (doseq [n (range number-of-events)]
-      (let [product (pick-random-product products-actors-map)
-            event-actor (pick-random-event-channel event-types event-actor-map)]
-        (ak/send-async event-actor product)))
-
     (println (str "Multiple Actors - Processing " number-of-events " events for " number-of-products " products ..."))
 
-    ;consolidate computed prices from the new price channel
-    ;waits until all events are processed
-    (while (not= @event-count number-of-events)
-         (if-let [message (ak/read-sync consumer)]
-           (do (swap! event-count inc)
-               (println (str (dissoc message :price-calculation-actor) " - " @event-count " of " number-of-events)))))
+    (initialize-kafka bootstrap-server new-price-output new-product-actor-instance
+                      cost-change-actor-instance products-actors-map consumer)
 
-    (doseq [product products-actors-map]
-      (ak/send-sync (:price-calculation-actor product) {:channel :list-history}))
+    (send-events-to-actors number-of-events products-actors-map event-types event-actor-map)
+
+    (consolidate-prices event-count number-of-events consumer)
+
+    (print-prices-history products-actors-map)
 
     (Thread/sleep 1000)))
 
