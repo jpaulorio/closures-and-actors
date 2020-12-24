@@ -17,9 +17,12 @@
             input)]
     (let [channel (async/chan buffer)]
       (apply build-generic-actor
-             (fn [state]
-               (if state
-                 (apply actor send-async state)
-                 (actor send-async)))
+             (fn
+               ([]
+                (actor send-async))
+               ([state]
+                (if state
+                  (apply actor send-async state)
+                  (actor send-async))))
              (partial core-async-processor channel)
              initial-state))))

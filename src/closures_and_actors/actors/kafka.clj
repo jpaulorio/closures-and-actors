@@ -59,10 +59,13 @@ from the provided kafka topic name"
           consumer (build-consumer bootstrap-server)]
       (consumer-subscribe consumer topic)
       (apply build-generic-actor
-             (fn [state]
-               (if state
-                 (apply actor send-async state)
-                 (actor send-async)))
+             (fn
+               ([]
+                (actor send-async))
+               ([state]
+                (if state
+                  (apply actor send-async state)
+                  (actor send-async))))
              (partial kafka-processor consumer topic)
              initial-state))))
 

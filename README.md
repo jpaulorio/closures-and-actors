@@ -4,16 +4,31 @@ Just me playing with closures, actors and core.async. I'm simulating a price com
 
 In order to simulate a cpu-bound price computation I'm doing some operations with matrices.
 
-Then I have two main namespaces, one has a single actor for computing prices for all products and another one with one actor per product.
+Then I have two main namespaces, one has a [single actor](src/closures_and_actors/price_computation/single_actor/core_async.clj)
+for computing prices for all products and another one with
+[one actor per product](src/closures_and_actors/price_computation/multiple_actors/core_async.clj).
 
-This is an improved version of [this code](https://github.com/jpaulorio/clojure-async-sandbox) since I was able to completely separate the business logic from the underlying transport medium (core.async).
-It wouldn't be hard to implement an actor that instead of sending messages through core.async, would send messages through http.
+For the multiple actors version I also have a [Kafka implementation](src/closures_and_actors/price_computation/multiple_actors/kafka.clj).
+Both versions share a [common business logic](src/closures_and_actors/price_computation/multiple_actors/domain.clj).
 
-One thing I want to try later is to extract the transport layer used to send messages across actors, so I can choose between core.async, http or something else, without having to duplicate the actor logic .
+This is an improved version of [this code](https://github.com/jpaulorio/clojure-async-sandbox) since
+I was able to completely separate the business logic from the underlying transport medium (core.async/Kafka).
+It wouldn't be hard to implement another actor that instead of sending messages through core.async or Kafka, would
+send messages through http instead.
 
-Both use closures to store state. I'm kinda implementing some sort of actor model here where I have functions that represent the actor's behavior and another function (closures-and-actors.actors/build-actor) to create an instance of an actor.
+The main achievement of this code is that I was able to extract the transport layer used to send messages
+across actors, so I can choose between core.async, Kafka, http or something else, without having to duplicate the actor logic .
 
-There are also two other namespaces: one demonstrates the use of closures to store state (closures-and-actors.closures), and the other one is another example of my actor model implementation with synchronous messages (closures-and-actors.bank-account).
+Both use closures to store state. I'm kinda implementing some sort of actor model here where I have
+functions that represent the actor's behavior and another function (build-core-async-actor/build-kafka-actor)
+to create an instance of an actor.
+
+There are also two other namespaces in this repository: one demonstrates the
+[use of closures to store state](src/closures_and_actors/closures/bank_account.clj),
+and the other one is another example of my actor model
+implementation with [synchronous messages](src/closures_and_actors/bank_account/domain.clj) using
+[core.async](src/closures_and_actors/bank_account/core_async.clj) and
+[Kafka](src/closures_and_actors/bank_account/kafka.clj).
 
 ## Usage
 
@@ -25,13 +40,23 @@ To build and run with default args:
 
     $ ./build-and-run.sh
 
-Run the following command to run both programs computing prices for 50 products:
+Run the following command to run both single-actor and multiple-actors modes
+**with core.async transport**  computing 10,000 prices for 100 products:
 
     $ ./run.sh
     
-Run the following command to run the bank account example:
+Run the following command to run the multiple-actors mode
+**with Kafka transport** computing 10,000 prices for 100 products:
+
+    $ ./run-kafka.sh
+    
+Run the following command to run the bank account example with core.async transport:
 
     $ ./run-bank-account.sh
+
+Run the following command to run the bank account example with Kafka transport (Docker required):
+
+    $ ./run-bank-account-kafka.sh
 
 Run the following command to run the closures example:
 
@@ -39,19 +64,21 @@ Run the following command to run the closures example:
 
 ## Options
 
-    $ ./run.sh [mode] [number-of-products]
+    $ ./run.sh [mode] [number-of-products] [number-of-events]
 
 Where:
 
-mode - sh or mh
+mode - sa or ma
 
 number-of-products - any positive integer
 
+number-of-events - any positive integer
+
 ## Examples
 
-    $ ./run.sh sh 100
+    $ ./run.sh sa 100 1000
 
-    $ ./run.sh mh 1000
+    $ ./run.sh ma 1000 10000
 
 ### Bugs
 
