@@ -1,6 +1,6 @@
 # Closures and Actors
 
-Just me playing with closures, actors and core.async. I'm simulating a price computation engine.
+Just me playing with closures and actors. I'm simulating a price computation engine.
 
 In order to simulate a cpu-bound price computation I'm doing some operations with matrices.
 
