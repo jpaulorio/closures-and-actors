@@ -1,4 +1,4 @@
-# closures-and-actors
+# Closures and Actors
 
 Just me playing with closures, actors and core.async. I'm simulating a price computation engine.
 
