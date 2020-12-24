@@ -44,7 +44,17 @@ Run the following command to run both single-actor and multiple-actors modes
 **with core.async transport**  computing 10,000 prices for 100 products:
 
     $ ./run.sh
-    
+
+## Options
+
+    $ ./run.sh [mode] [number-of-products] [number-of-events]
+
+## Examples
+
+    $ ./run.sh sa 100 1000
+
+    $ ./run.sh ma 1000 10000
+
 Run the following command to run the multiple-actors mode
 **with Kafka transport** computing 10,000 prices for 100 products:
 
@@ -62,23 +72,13 @@ Run the following command to run the closures example:
 
     $ ./run-closures.sh
 
-## Options
-
-    $ ./run.sh [mode] [number-of-products] [number-of-events]
-
 Where:
 
-mode - sa or ma
+mode: sa or ma
 
-number-of-products - any positive integer
+number-of-products: any positive integer
 
-number-of-events - any positive integer
-
-## Examples
-
-    $ ./run.sh sa 100 1000
-
-    $ ./run.sh ma 1000 10000
+number-of-events: any positive integer
 
 ### Bugs
 
