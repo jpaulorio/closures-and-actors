@@ -56,7 +56,7 @@ Run the following command to run both single-actor and multiple-actors modes
     $ ./run.sh ma 1000 10000
 
 Run the following command to run the multiple-actors mode
-**with Kafka transport** computing 10,000 prices for 100 products:
+**with Kafka transport** computing 10,000 prices for 100 products **(Docker required)**:
 
     $ ./run-kafka.sh
     
@@ -64,7 +64,7 @@ Run the following command to run the bank account example with core.async transp
 
     $ ./run-bank-account.sh
 
-Run the following command to run the bank account example with Kafka transport (Docker required):
+Run the following command to run the bank account example with Kafka transport **(Docker required)**:
 
     $ ./run-bank-account-kafka.sh
 
